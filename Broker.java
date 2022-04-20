@@ -21,6 +21,7 @@ public class Broker {
         Broker newBroker = new Broker();
 
         newBroker.getPort();
+        newBroker.getOtherBrokers();
         newBroker.topics = new HashMap<String, ArrayList<String>>();
         newBroker.registeredPublishers = new ArrayList<UserNode>();
         newBroker.registeredConsumers = new ArrayList<UserNode>();
@@ -46,6 +47,31 @@ public class Broker {
         System.out.println("BrokerID is: "+brokerID+" port is: "+port);
     }
 
+    ArrayList<Broker> getOtherBrokers() {
+
+        ArrayList<Broker> otherBrokers = new ArrayList<Broker>();
+
+        try {
+            File obj=new File("C:\\Users\\giorg\\Desktop\\Dis\\Conf.txt");
+            Scanner Reader = new Scanner(obj);
+            while(Reader.hasNextLine()) {
+                String line=Reader.nextLine();
+                String[] wordArray = line.split(" ");
+                System.out.println(wordArray[1]);
+                if((Integer.valueOf(wordArray[1]) != port)){
+                    otherBrokers.add(new Broker());
+                    otherBrokers.get(otherBrokers.size()-1).brokerID = wordArray[0];
+                    otherBrokers.get(otherBrokers.size()-1).port = Integer.valueOf(wordArray[1]);
+                    otherBrokers.get(otherBrokers.size()-1).topics = new HashMap<String, ArrayList<String>>();
+                }
+            }
+        } catch (IOException e1) {
+            System.out.println("An error occurred.");
+            e1.printStackTrace();
+        }
+        return otherBrokers;
+    }
+
     public int fileRead() {
 
         int lines=0;
@@ -53,8 +79,8 @@ public class Broker {
             File obj=new File("C:\\Users\\giorg\\Desktop\\Dis\\Conf.txt");
             Scanner Reader = new Scanner(obj);
             while(Reader.hasNextLine()) {
-                    String processorsString = Reader.nextLine();
-                    lines++;
+                Reader.nextLine();
+                lines++;
             }
             //System.out.println("lines "+lines);
             Reader.close();
