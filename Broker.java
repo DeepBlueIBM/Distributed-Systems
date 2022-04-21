@@ -25,21 +25,9 @@ public class Broker {
         newBroker.registeredConsumers = new ArrayList<UserNode>();
         newBroker.brokerList = newBroker.getOtherBrokers();
 
-        //Server thread = new Server(newBroker);
-        //thread.start();
-
-        boolean flag=true;
-        while(flag==true) {
-
-            Scanner sc = new Scanner(System.in);
-            System.out.print("Enter your action: ");
-            String str= sc.nextLine();
-
-            switch(str){
-
-                case "exit":
-                    flag=false;
-            }
+        System.out.println("New broker created");
+        Server thread = new Server(newBroker);
+        thread.start();
 
             for (Broker diffBroker: newBroker.brokerList) {	//koitaei oloys toys brokers apo thn lista ton broker
                 try {
@@ -49,7 +37,7 @@ public class Broker {
                     System.out.println("Broker connected");
                     OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
                     BufferedWriter bw = new BufferedWriter(osw);
-                    bw.write(str);
+                    bw.write("bl");
                     bw.newLine();
                     bw.write(newBroker.brokerID);
 
@@ -62,7 +50,6 @@ public class Broker {
                 }
 
             }
-        }
 
 
     }
@@ -75,7 +62,7 @@ public class Broker {
         fileWrite("Broker"+(lines+1)+" "+(portNumber+(100*lines)));
 
         lines = fileRead();
-        System.out.println("lines "+lines);
+        //System.out.println("lines "+lines);
 
         brokerID = "Broker"+(lines);
         port = portNumber+(100*(lines-1));
@@ -93,7 +80,7 @@ public class Broker {
             while(Reader.hasNextLine()) {
                 String line=Reader.nextLine();
                 String[] wordArray = line.split(" ");
-                System.out.println(wordArray[1]);
+                //System.out.println(wordArray[1]);
                 if((Integer.valueOf(wordArray[1]) != port)){
                     otherBrokers.add(new Broker());
                     otherBrokers.get(otherBrokers.size()-1).brokerID = wordArray[0];

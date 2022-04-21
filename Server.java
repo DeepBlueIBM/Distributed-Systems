@@ -11,17 +11,20 @@ public class Server extends Thread{
     }
 
     ServerSocket providerSocket;
-    Socket connection = null;
 
     public void run() {
+
+        Socket connection = null;
+
         try {
+            String action = "";
             providerSocket = new ServerSocket(newBroker.port);
 
             while (true) {
                 connection = providerSocket.accept();
 
-                //Thread t = new ActionsForClients(connection);
-                //t.start();
+                ActionsForClients t = new ActionsForClients(newBroker,action,connection);
+                t.start();
 
             }
         } catch (IOException ioException) {

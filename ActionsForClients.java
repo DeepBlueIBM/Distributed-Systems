@@ -23,6 +23,7 @@ public class ActionsForClients extends Thread{
             action = br.readLine();
             action = br.readLine();
             //stands for broker list
+            System.out.println("Action is: "+action);
             if (action.equals("bl")) {
                 broker.brokerList = broker.getOtherBrokers();
                 System.out.println("[Updated brokerList, B" + br.readLine() + " was added]");
