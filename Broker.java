@@ -1,6 +1,5 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,18 +15,55 @@ public class Broker {
     ArrayList<UserNode> registeredPublishers;
     ArrayList<UserNode> registeredConsumers;
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) {
 
         Broker newBroker = new Broker();
 
         newBroker.getPort();
-        newBroker.getOtherBrokers();
         newBroker.topics = new HashMap<String, ArrayList<String>>();
         newBroker.registeredPublishers = new ArrayList<UserNode>();
         newBroker.registeredConsumers = new ArrayList<UserNode>();
-        //newBroker.brokerList = newBroker.updateBrokers();
-        //Server thread = new Server(newBroker);	//
+        newBroker.brokerList = newBroker.getOtherBrokers();
+
+        //Server thread = new Server(newBroker);
         //thread.start();
+
+        boolean flag=true;
+        while(flag==true) {
+
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Enter your action: ");
+            String str= sc.nextLine();
+
+            switch(str){
+
+                case "exit":
+                    flag=false;
+            }
+
+            for (Broker diffBroker: newBroker.brokerList) {	//koitaei oloys toys brokers apo thn lista ton broker
+                try {
+
+                    Socket socket = new Socket(IP, diffBroker.port);	//kanei syndesh me tous allous brokers pairnontas to Ip
+
+                    System.out.println("Broker connected");
+                    OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
+                    BufferedWriter bw = new BufferedWriter(osw);
+                    bw.write(str);
+                    bw.newLine();
+                    bw.write(newBroker.brokerID);
+
+                    //that's it, we are done
+                    bw.close();
+                    osw.close();
+                    socket.close();
+                } catch (NumberFormatException | IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
 
     }
 
@@ -44,7 +80,7 @@ public class Broker {
         brokerID = "Broker"+(lines);
         port = portNumber+(100*(lines-1));
 
-        System.out.println("BrokerID is: "+brokerID+" port is: "+port);
+        //System.out.println("BrokerID is: "+brokerID+" port is: "+port);
     }
 
     ArrayList<Broker> getOtherBrokers() {
@@ -70,6 +106,22 @@ public class Broker {
             e1.printStackTrace();
         }
         return otherBrokers;
+    }
+
+    void updateTopics(Broker thisBroker){
+
+        for(Broker diffBroker:thisBroker.brokerList){
+
+            try{
+
+                Socket socket = new Socket(diffBroker.IP,diffBroker.port);
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public int fileRead() {
