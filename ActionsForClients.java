@@ -21,12 +21,13 @@ public class ActionsForClients extends Thread{
             InputStreamReader isr = new InputStreamReader(socket.getInputStream());
             BufferedReader br = new BufferedReader(isr);
             action = br.readLine();
-            action = br.readLine();
             //stands for broker list
             System.out.println("Action is: "+action);
-            if (action.equals("bl")) {
+            if (action.equals("123")) {
                 broker.brokerList = broker.getOtherBrokers();
-                System.out.println("[Updated brokerList, B" + br.readLine() + " was added]");
+                System.out.println("[Updated brokerList, " + br.readLine() + " was added]");
+            }else if(action.equals("an o xrisths pathsei to 2")){
+
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Broker {
 
     String brokerID;
+    int port;
     static String IP = "127.0.0.1";
     ArrayList<Broker> brokerList;
     HashMap<String, ArrayList<String>> topics;
@@ -36,7 +37,7 @@ public class Broker {
                     System.out.println("Broker connected");
                     OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
                     BufferedWriter bw = new BufferedWriter(osw);
-                    bw.write("bl");
+                    bw.write("123");
                     bw.newLine();
                     bw.write(newBroker.brokerID);
 
@@ -74,7 +75,7 @@ public class Broker {
         ArrayList<Broker> otherBrokers = new ArrayList<Broker>();
 
         try {
-            File obj=new File("C:\\Users\\giorg\\Desktop\\Dis\\Conf.txt");
+            File obj=new File("C:\\Users\\giorg\\Desktop\\Dis\\conf.txt");
             Scanner Reader = new Scanner(obj);
             while(Reader.hasNextLine()) {
                 String line=Reader.nextLine();
@@ -114,7 +115,7 @@ public class Broker {
 
         int lines=0;
         try {
-            File obj=new File("C:\\Users\\giorg\\Desktop\\Dis\\Conf.txt");
+            File obj=new File("C:\\Users\\giorg\\Desktop\\Dis\\conf.txt");
             Scanner Reader = new Scanner(obj);
             while(Reader.hasNextLine()) {
                 Reader.nextLine();
@@ -133,7 +134,7 @@ public class Broker {
 
     public void fileWrite(String write) {
         try {
-            File obj = new File("C:\\Users\\giorg\\Desktop\\Dis\\Conf.txt");
+            File obj = new File("C:\\Users\\giorg\\Desktop\\Dis\\conf.txt");
 
             FileWriter myWrite = new FileWriter(obj, true);
             int lines = fileRead();
