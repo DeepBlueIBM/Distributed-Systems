@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Broker {
 
     String brokerID;
-    int port=10000;
     static String IP = "127.0.0.1";
     ArrayList<Broker> brokerList;
     HashMap<String, ArrayList<String>> topics;
