@@ -17,42 +17,61 @@ public class Broker {
 
     public static void main(String[] args) {
 
-        Broker newBroker = new Broker();
 
-        newBroker.getPort();
-        newBroker.topics = new HashMap<String, ArrayList<String>>();
-        newBroker.registeredPublishers = new ArrayList<UserNode>();
-        newBroker.registeredConsumers = new ArrayList<UserNode>();
-        newBroker.brokerList = newBroker.getOtherBrokers();
+        Scanner sc = new Scanner(System.in);    //System.in is a standard input stream
+        System.out.print("Select from the following menu by only pressing the number "+"\n");
+        String str = sc.nextLine();
 
-        System.out.println("New broker created");
-        Server thread = new Server(newBroker);
-        thread.start();
+        boolean flag = true;
 
-            for (Broker diffBroker: newBroker.brokerList) {	//koitaei oloys toys brokers apo thn lista ton broker
-                try {
+        while (flag) {
 
-                    Socket socket = new Socket(IP, diffBroker.port);	//kanei syndesh me tous allous brokers pairnontas to Ip
+            switch (str) {
 
-                    System.out.println("Broker connected");
-                    OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
-                    BufferedWriter bw = new BufferedWriter(osw);
-                    bw.write("123");
-                    bw.newLine();
-                    bw.write(newBroker.brokerID);
+                case ("123"):
 
-                    //that's it, we are done
-                    bw.close();
-                    osw.close();
-                    socket.close();
-                } catch (NumberFormatException | IOException e) {
-                    e.printStackTrace();
+                Broker newBroker = new Broker();
+
+                newBroker.getPort();
+                newBroker.topics = new HashMap<String, ArrayList<String>>();
+                newBroker.registeredPublishers = new ArrayList<UserNode>();
+                newBroker.registeredConsumers = new ArrayList<UserNode>();
+                newBroker.brokerList = newBroker.getOtherBrokers();
+
+                System.out.println("New broker created");
+                Server thread = new Server(newBroker);
+                thread.start();
+
+
+                for (Broker diffBroker : newBroker.brokerList) {    //koitaei oloys toys brokers apo thn lista ton
+
+                    try {
+
+                        Socket socket = new Socket(IP, diffBroker.port);    //kanei syndesh me tous allous brokers pairnontas to Ip
+
+                        System.out.println("Broker connected");
+                        OutputStreamWriter osw = new OutputStreamWriter(socket.getOutputStream());
+                        BufferedWriter bw = new BufferedWriter(osw);
+                        bw.write("123");
+                        bw.newLine();
+                        bw.write(newBroker.brokerID);
+
+                        //that's it, we are done
+                        bw.close();
+                        osw.close();
+                        socket.close();
+                    } catch (NumberFormatException | IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
+                case ("exit"):
+                    flag=false;
             }
-
-
+        }
     }
+
+
 
     void getPort() {
 
